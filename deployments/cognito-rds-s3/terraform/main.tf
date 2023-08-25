@@ -53,6 +53,7 @@ locals {
     ami_type        = "AL2_x86_64_GPU"
     disk_size       = var.node_disk_size_gpu
     subnet_ids      = module.vpc.private_subnets
+    capacity_type   = "SPOT"
   } : null
 
   managed_node_group_gpu_a10g = local.using_gpu ? {
