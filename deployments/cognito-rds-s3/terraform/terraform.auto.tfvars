@@ -1,7 +1,7 @@
 cluster_name                    = "kubeflow-dev"
 cluster_region                  = "us-west-2"
 node_instance_type              = "m5.xlarge"
-# node_instance_type_gpu_a100   = "p4d.24xlarge"
+# node_instance_type_gpu_a100     = "p4d.24xlarge"
 node_instance_type_gpu_v100     = "p3.8xlarge"
 node_instance_type_gpu_a10g     = "g5.2xlarge"
 create_subdomain                = false
@@ -14,4 +14,3 @@ use_s3                          = true
 pipeline_s3_credential_option   = "irsa"
 use_cognito                     = true
 load_balancer_scheme            = "internet-facing"
-mysql_engine_version            = "0.8.33"
