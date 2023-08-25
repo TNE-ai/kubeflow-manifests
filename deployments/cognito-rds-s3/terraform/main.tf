@@ -51,6 +51,7 @@ locals {
     max_size        = 1
     ami_type        = "AL2_x86_64_GPU"
     subnet_ids      = module.vpc.private_subnets
+    capacity_type   = "SPOT"
   } : null
 
   potential_managed_node_groups = {
