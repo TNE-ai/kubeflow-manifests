@@ -26,7 +26,13 @@ variable "node_instance_type" {
   default     = "m5.xlarge"
 }
 
-variable "node_instance_type_gpu" {
+variable "node_instance_type_gpu_v100" {
+  description = "The instance type of a gpu EKS node. Will result in the creation of a separate gpu node group when not null"
+  type        = string
+  default     = null
+}
+
+variable "node_instance_type_gpu_a10g" {
   description = "The instance type of a gpu EKS node. Will result in the creation of a separate gpu node group when not null"
   type        = string
   default     = null

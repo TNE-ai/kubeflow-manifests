@@ -5,7 +5,7 @@ locals {
 
   vpc_cidr = "10.0.0.0/16"
 
-  using_gpu = var.node_instance_type_gpu != null
+  using_gpu = var.node_instance_type_gpu_a10g != null || var.node_instance_type_gpu_v100 != null
 
   # fix ordering using toset
   available_azs_cpu = toset(data.aws_ec2_instance_type_offerings.availability_zones_cpu.locations)
@@ -27,25 +27,36 @@ locals {
   managed_node_group_cpu = {
     node_group_name = "managed-ondemand-cpu"
     instance_types  = [var.node_instance_type]
-    min_size        = 5
-    desired_size    = 5
-    max_size        = 10
+    min_size        = 2
+    desired_size    = 3
+    max_size        = 5
     subnet_ids      = module.vpc.private_subnets
   }
 
-  managed_node_group_gpu = local.using_gpu ? {
-    node_group_name = "managed-ondemand-gpu"
-    instance_types  = [var.node_instance_type_gpu]
-    min_size        = 3
-    desired_size    = 3
-    max_size        = 5
+  managed_node_group_gpu_v100 = local.using_gpu ? {
+    node_group_name = "managed-ondemand-gpu-v100"
+    instance_types  = [var.node_instance_type_gpu_v100]
+    min_size        = 0
+    desired_size    = 1
+    max_size        = 1
+    ami_type        = "AL2_x86_64_GPU"
+    subnet_ids      = module.vpc.private_subnets
+  } : null
+
+  managed_node_group_gpu_a10g = local.using_gpu ? {
+    node_group_name = "managed-ondemand-gpu-a10g"
+    instance_types  = [var.node_instance_type_gpu_a10g]
+    min_size        = 0
+    desired_size    = 1
+    max_size        = 1
     ami_type        = "AL2_x86_64_GPU"
     subnet_ids      = module.vpc.private_subnets
   } : null
 
   potential_managed_node_groups = {
     mg_cpu = local.managed_node_group_cpu,
-    mg_gpu = local.managed_node_group_gpu
+    mg_gpu_v100 = local.managed_node_group_gpu_v100
+    mg_gpu_a10g = local.managed_node_group_gpu_a10g
   }
 
   managed_node_groups = { for k, v in local.potential_managed_node_groups : k => v if v != null }
@@ -102,7 +113,7 @@ data "aws_ec2_instance_type_offerings" "availability_zones_gpu" {
 
   filter {
     name   = "instance-type"
-    values = [var.node_instance_type_gpu]
+    values = [var.node_instance_type_gpu_v100]
   }
 
   location_type = "availability-zone"
