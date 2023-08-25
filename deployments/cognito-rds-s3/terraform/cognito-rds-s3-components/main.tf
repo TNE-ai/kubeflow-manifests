@@ -478,7 +478,7 @@ module "kubeflow_user_namespace" {
   depends_on    = [module.kubeflow_aws_telemetry, module.user_namespace_irsa]
 }
 
-module "ack_sagemaker" {
-  source        = "../../../../iaac/terraform/common/ack-sagemaker-controller"
-  addon_context = var.addon_context
-}
+# module "ack_sagemaker" {
+#   source        = "../../../../iaac/terraform/common/ack-sagemaker-controller"
+#   addon_context = var.addon_context
+# }

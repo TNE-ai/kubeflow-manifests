@@ -24,16 +24,16 @@ module "helm_addon" {
   addon_context = var.addon_context
 }
 
-resource "kubernetes_annotations" "sa_role_arn" {
-  api_version = "v1"
-  kind        = "ServiceAccount"
-  metadata {
-    name      = module.irsa.service_account
-    namespace = module.irsa.namespace
-  }
-  annotations = {
-    "eks.amazonaws.com/role-arn" : module.irsa.irsa_iam_role_arn
-  }
-
-  depends_on = [module.helm_addon]
-}
+#resource "kubernetes_annotations" "sa_role_arn" {
+#api_version = "v1"
+#  kind        = "ServiceAccount"
+#  metadata {
+#    name      = module.irsa.service_account
+#namespace = module.irsa.namespace
+#  }
+#  annotations = {
+#    "eks.amazonaws.com/role-arn" : module.irsa.irsa_iam_role_arn
+#  }
+#
+#  depends_on = [module.helm_addon]
+#}
