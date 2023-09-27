@@ -14,6 +14,7 @@ use_s3                          = true
 pipeline_s3_credential_option   = "irsa"
 use_cognito                     = true
 load_balancer_scheme            = "internet-facing"
+node_disk_size_cpu              = 300
 
 # The below values are set to make cleanup easier but are not recommended for production
 deletion_protection="false"

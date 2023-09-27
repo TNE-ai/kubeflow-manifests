@@ -38,39 +38,15 @@ locals {
     node_group_name = "managed-ondemand-gpu-v100"
     instance_types  = [var.node_instance_type_gpu_v100]
     min_size        = 0
-    desired_size    = 1
+    desired_size    = 0
     max_size        = 1
     ami_type        = "AL2_x86_64_GPU"
     subnet_ids      = module.vpc.private_subnets
-  } : null
-
-  managed_node_group_gpu_a10g = local.using_gpu ? {
-    node_group_name = "managed-ondemand-gpu-a10g"
-    instance_types  = [var.node_instance_type_gpu_a10g]
-    min_size        = 0
-    desired_size    = 1
-    max_size        = 1
-    ami_type        = "AL2_x86_64_GPU"
-    disk_size       = var.node_disk_size_gpu
-    subnet_ids      = module.vpc.private_subnets
-    capacity_type   = "SPOT"
-  } : null
-
-  managed_node_group_gpu_a10g = local.using_gpu ? {
-    node_group_name = "managed-ondemand-gpu-a10g"
-    instance_types  = [var.node_instance_type_gpu_a10g]
-    min_size        = 0
-    desired_size    = 1
-    max_size        = 1
-    ami_type        = "AL2_x86_64_GPU"
-    subnet_ids      = module.vpc.private_subnets
-    capacity_type   = "SPOT"
   } : null
 
   potential_managed_node_groups = {
     mg_cpu = local.managed_node_group_cpu,
     mg_gpu_v100 = local.managed_node_group_gpu_v100
-    mg_gpu_a10g = local.managed_node_group_gpu_a10g
   }
 
   managed_node_groups = { for k, v in local.potential_managed_node_groups : k => v if v != null }
